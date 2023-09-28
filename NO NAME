@@ -1,0 +1,49 @@
+#include<iostream>
+#include<conio.h>
+
+using namespace std;
+
+int main()
+{
+    int i, a[10], temp, j;
+    cout << "Enter any 10 numbers in an array: \n";
+    
+    // You should loop from 0 to 9 to input 10 elements into the array.
+    for (i = 0; i < 10; i++)
+    {
+        cin >> a[i];
+    }
+    
+    cout << "\n Data before sorting:  ";
+    for (j = 0; j < 10; j++)
+    {
+        cout << a[j] << " "; // Add a space to separate the numbers.
+    }
+    
+    // You should loop only up to 9 in both loops to avoid going out of bounds.
+    for (i = 0; i < 9; i++)
+    {
+        for (j = 0; j < 9 - i; j++) // Reduce the inner loop by 'i' iterations since the largest elements are already sorted.
+        {
+            if (a[j] > a[j + 1])
+            {
+                temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
+        }
+    }
+    
+    cout << "\n Data after sorting: ";
+    for (j = 0; j < 10; j++)
+    {
+        cout << a[j] << " "; // Add a space to separate the numbers.
+    }
+    
+    getch();
+    return 0; // Add a return statement to indicate successful program completion.
+}
+
+
+
+
