@@ -1,0 +1,91 @@
+#include <iostream>
+using namespace std;
+
+// Node class to represent elements in the linked list
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = NULL;
+    }
+};
+
+// Linked List class
+class LinkedList {
+public:
+    Node* head;
+
+    LinkedList() {
+        head = NULL;
+    }
+
+    // Function to insert a new element at the end of the linked list
+    void insert(int val) {
+        Node* newNode = new Node(val);
+        if (head == NULL) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    // Function to search for an element in the linked list
+    bool search(int val) {
+        Node* temp = head;
+        while (temp != NULL) {
+            if (temp->data == val) {
+                return true; // Element found
+            }
+            temp = temp->next;
+        }
+        return false; // Element not found
+    }
+
+    // Function to display the linked list
+    void display() {
+        Node* temp = head;
+        while (temp != NULL) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    LinkedList myList;
+
+    // Insert elements into the linked list
+    int numElements;
+    cout << "Enter the number of elements to insert: ";
+    cin >> numElements;
+
+    for (int i = 0; i < numElements; i++) {
+        int element;
+        cout << "Enter element " << i + 1 << ": ";
+        cin >> element;
+        myList.insert(element);
+    }
+
+    cout << "Linked List: ";
+    myList.display();
+
+    int searchValue;
+    cout << "Enter the value to search for: ";
+    cin >> searchValue;
+
+    if (myList.search(searchValue)) {
+        cout << "Element " << searchValue << " found in the linked list." << endl;
+    } else {
+        cout << "Element " << searchValue << " not found in the linked list." << endl;
+    }
+
+    return 0;
+}
