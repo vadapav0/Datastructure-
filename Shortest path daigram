@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+#include <limits>
+#include <algorithm>
+
+using namespace std;
+
+const int INF = numeric_limits<int>::max(); // Represents infinity
+
+// Function to find the vertex with the minimum distance value
+int minDistance(const vector<int>& dist, const vector<bool>& visited) {
+    int minDist = INF, minIndex;
+
+    for (int v = 0; v < dist.size(); v++) {
+        if (!visited[v] && dist[v] <= minDist) {
+            minDist = dist[v];
+            minIndex = v;
+        }
+    }
+
+    return minIndex;
+}
+
+// Function to print the shortest path from source to destination
+void printPath(const vector<int>& parent, int dest) {
+    if (parent[dest] == -1) {
+        cout << dest;
+        return;
+    }
+
+    printPath(parent, parent[dest]);
+    cout << " -> " << dest;
+}
+
+// Function to find and print the shortest path using Dijkstra's algorithm
+void shortestPath(const vector<vector<int>>& graph, int src, int dest) {
+    int V = graph.size();
+    vector<int> dist(V, INF);
+    vector<bool> visited(V, false);
+    vector<int> parent(V, -1);
+
+    dist[src] = 0;
+
+    for (int count = 0; count < V - 1; count++) {
+        int u = minDistance(dist, visited);
+        visited[u] = true;
+
+        for (int v = 0; v < V; v++) {
+            if (!visited[v] && graph[u][v] && dist[u] != INF && dist[u] + graph[u][v] < dist[v]) {
+                dist[v] = dist[u] + graph[u][v];
+                parent[v] = u;
+            }
+        }
+    }
+
+    if (dist[dest] == INF) {
+        cout << "No path exists from " << src << " to " << dest << endl;
+    } else {
+        cout << "Shortest Path from " << src << " to " << dest << ": ";
+        printPath(parent, dest);
+        cout << endl;
+        cout << "Shortest Distance: " << dist[dest] << endl;
+    }
+}
+
+int main() {
+    int V, src, dest;
+    cout << "Enter the number of vertices in the graph: ";
+    cin >> V;
+
+    vector<vector<int>> graph(V, vector<int>(V, 0));
+    cout << "Enter the adjacency matrix of the graph:" << endl;
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            cin >> graph[i][j];
+        }
+    }
+
+    cout << "Enter the source vertex: ";
+    cin >> src;
+    cout << "Enter the destination vertex: ";
+    cin >> dest;
+
+    shortestPath(graph, src, dest);
+
+    return 0;
+}
